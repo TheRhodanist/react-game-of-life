@@ -1,0 +1,13 @@
+.tile {
+
+    border: thick black;
+    margin: 0;
+    padding: 2px;
+}
+
+.alive {
+    background-color:green;
+}
+.dead {
+    background-color: darkgray;
+}
