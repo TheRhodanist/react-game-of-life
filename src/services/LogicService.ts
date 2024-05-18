@@ -3,7 +3,7 @@ import {tileModel} from "../models/tileModel";
 export function calculateNextStep(board:tileModel[][]):tileModel[][] {
     const size = board.length
     const result = cloneBoard(board)
-    for (let x = 1;x<size;x++)
+    for (let x = 0;x<size;x++)
     for (let y = 0;y<size;y++) {
         result[x][y].filled = willBeAlive(x,y,board)
     }
