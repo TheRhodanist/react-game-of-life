@@ -1,23 +1,16 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
-import {tileModel} from "../models/tileModel";
+import {TileModel} from "../models/TileModel";
 import {Button, Checkbox, Grid, TextField} from "@mui/material";
-import {calculateNextStep, willBeAlive} from "../services/LogicService";
+import {calculateNextStep, cloneBoard, getEmptyGame, willBeAlive} from "../services/LogicService";
 import "../components/Tile/tile.css"
+import {Tile} from "./Tile/Tile";
 
 const GAME_SIZE=40;
-const emptyGame:tileModel[][] = [];
-for(let i = 0;i<GAME_SIZE;i++) {
-    emptyGame.push([]);
-    for(let j = 0;j<GAME_SIZE;j++)
-    {
-        emptyGame[i].push(new tileModel(i,j,Math.random() >= 0.9));
-    }
-
-}
+const emptyGame:TileModel[][] = getEmptyGame(GAME_SIZE,true)
 interface Props {
 
 }
-const board:tileModel[][] = [[]];
+const board:TileModel[][] = [[]];
 export const GameBoard  = (props:Props) => {
     const [board, setBoard] = useState(emptyGame);
     const [lastBoard, setLastBoard] = useState(emptyGame);
@@ -27,19 +20,26 @@ export const GameBoard  = (props:Props) => {
 
     function handleAdvance() {
         setLastBoard(prevState => board)
-        setBoard(prevState =>  calculateNextStep(board)
-        );
+        setBoard(prevstate=>{
+            const newBoard = calculateNextStep(prevstate);
+            return newBoard;
+        });
     }
-
+    function handleToggleTile(tile:TileModel) {
+        const newBoard = cloneBoard(board);
+        newBoard[tile.posx][tile.posy].filled = !newBoard[tile.posx][tile.posy].filled;
+        setBoard(prevState=>newBoard);
+    }
     function handleBack() {
-        console.log(board);
-        console.log(lastBoard)
-        console.log(board===lastBoard)
+
         setBoard(prevState => lastBoard);
     }
 
     useEffect(() => {
-        const timer = setInterval(handleAdvance,timerValue);
+        const timer = setInterval(()=>{
+            console.log("Timer");
+            handleAdvance();
+        },timerValue);
         if(!autoMode) clearInterval(timer);
         console.log("timer")
         return function clean() {
@@ -61,6 +61,9 @@ export const GameBoard  = (props:Props) => {
     function handlePreview(event:ChangeEvent<HTMLInputElement>) {
         setPreviewEnabled(event.target.checked);
     }
+    function handleClear() {
+        setBoard(getEmptyGame(GAME_SIZE));
+    }
 
     return (
         <>
@@ -69,50 +72,22 @@ export const GameBoard  = (props:Props) => {
                 <Checkbox onChange={handleAutoForwardChange}></Checkbox>
                 <TextField variant={"outlined"} onChange={handleNewTimer} defaultValue={timerValue}></TextField>
                 <Button onClick={handleAdvance} variant={"contained"}>Advance</Button>
-                <Button onClick={handleBack} variant={"contained"}>Back</Button>
+                <Button onClick={handleClear} variant={"contained"}>Clear</Button>
                 Preview
                 <Checkbox onChange={handlePreview}></Checkbox>
             </div>
             <Grid container columns={GAME_SIZE} style={{height: "100%"}}
                                                          spacing={0}>
             {board.map((col, colIndex) => (
-                <Grid xs={1} key={"col" + colIndex} spacing={0}>
+                <div key={"col" + colIndex} style={{margin:"auto",display:"flex"}}>
                     {col.map((item, rowIndex) => {
-                        const nextRoundAlive = willBeAlive(item.posx,item.posy,board);
-                        const itemStyle = {
-                            width:"50px",
-                            height:"50px",
-                            border:"thin solid black",
-                            backgroundColor:"black",
-
-                        }
-                        if(previewEnabled) {
-                            if(!item.filled) {
-                                itemStyle.backgroundColor = nextRoundAlive?"lightgreen":"darkgray"
-                            } else {
-                                itemStyle.backgroundColor = nextRoundAlive?"green":"red"
-                            }
-                        } else {
-                            itemStyle.backgroundColor = item.filled?"black":"darkgray"
-                        }
                         return (
-                            <Grid item key={"row" + rowIndex}>
-                                {/*<Button  onClick={()=>{*/}
-                                {/*    console.log(getNeighbors(colIndex,rowIndex,board))*/}
-                                {/*    console.log(willBeAlive(colIndex,rowIndex,board))*/}
-                                {/*}*/}
-                                {/*}>*/}
-                                {/*    {item.filled ? "X" : "."}*/}
-
-                                {/*</Button>*/}
-
-                                <div style={itemStyle}>
-                                    {/*{item.filled ? "X" : "."}*/}
-                                </div>
-                            </Grid>
+                            <div key={"row" + rowIndex}>
+                                <Tile board={board} previewEnabled={previewEnabled} tile={item} handleToggle={handleToggleTile}/>
+                            </div>
                         );
                     })}
-                </Grid>
+                </div>
             ))}
         </Grid>
         </>

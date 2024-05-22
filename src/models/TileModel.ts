@@ -1,4 +1,4 @@
-export class tileModel {
+export class TileModel {
     posx:number;
     posy:number;
     filled:boolean;

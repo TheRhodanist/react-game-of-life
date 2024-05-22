@@ -1,6 +1,6 @@
-import {tileModel} from "../models/tileModel";
+import {TileModel} from "../models/TileModel";
 
-export function calculateNextStep(board:tileModel[][]):tileModel[][] {
+export function calculateNextStep(board:TileModel[][]):TileModel[][] {
     const size = board.length
     const result = cloneBoard(board)
     for (let x = 0;x<size;x++)
@@ -10,15 +10,16 @@ export function calculateNextStep(board:tileModel[][]):tileModel[][] {
     return result;
 }
 
-function cloneBoard(board:tileModel[][]):tileModel[][] {
+export function cloneBoard(board:TileModel[][]):TileModel[][] {
     const size = board.length;
-    const result:tileModel[][] = [];
-    for(let i = 0;i<size;i++) {
-        result.push([...board[i]])
+    const result:TileModel[][] = getEmptyGame(board.length);
+    for(let i = 0;i<size;i++)
+    for(let j = 0;j<size;j++) {
+        result[i][j].filled = board[i][j].filled;
     }
     return result;
 }
-export function willBeAlive(x: number, y: number,board:tileModel[][]) {
+export function willBeAlive(x: number, y: number,board:TileModel[][]) {
     let neighbors = getNeighbors(x,y,board);
     // console.log(board[x][y])
     // console.log(neighbors)
@@ -28,14 +29,13 @@ export function willBeAlive(x: number, y: number,board:tileModel[][]) {
     return !board[x][y].filled && neighbors === 3;
 
 }
-export function getNeighbors(x:number,y:number,board:tileModel[][]):number {
+export function getNeighbors(x:number,y:number,board:TileModel[][]):number {
     let result = 0;
     const size = board.length
     const aboveValid = y>0;
     const belowValid = y<size-1;
     const leftValid = x>0;
     const rightValid = x<size-1;
-    // if(x===0||x===39||y===0||y===39) return 0;
     if(leftValid&&aboveValid&&board[x-1][y-1]?.filled) result++;
     if(leftValid&&board[x-1][y]?.filled) result++;
     if(leftValid&&y<size&&board[x-1][y+1]?.filled) result++;
@@ -44,5 +44,18 @@ export function getNeighbors(x:number,y:number,board:tileModel[][]):number {
     if(rightValid&&aboveValid&&board[x+1][y-1]?.filled) result++;
     if(rightValid&&board[x+1][y]?.filled) result++;
     if(rightValid&&belowValid&&board[x+1][y+1]?.filled) result++;
+    return result;
+}
+
+export function getEmptyGame(size:number,random?:boolean):TileModel[][] {
+    const result:TileModel[][] = [];
+    for(let i = 0;i<size;i++) {
+        result.push([]);
+        for(let j = 0;j<size;j++)
+        {
+            result[i].push(new TileModel(i,j,random?Math.random()>0.9:false));
+        }
+
+    }
     return result;
 }
