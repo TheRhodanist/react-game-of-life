@@ -1,46 +1,25 @@
-# Getting Started with Create React App
+# Game of Life
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Usage
+The "Timer" button toggles between automated advancement with the number in the textfield being the "intended" time to reach in ms between new frames and a pause state.
 
-## Available Scripts
+During the pause phase you can advance the board by one generation via the "Advance" button
 
-In the project directory, you can run:
+The board can be cleared using the appropriate button to enable easier drawing of owns own construct.
 
-### `npm start`
+You can click a tile in the boad to toggle its state(best used while in pause mode).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Enabling the preview checkbox displayed a color view of the coming generation:
+* gray-> is dead and will stay dead
+* light green-> is dead and will be alive
+* dark green-> is alive and will stay that way
+* red-> is alive and will die next generation
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+To get a new randomly generated field refresh the browser
 
-### `npm test`
+## Installation
+A live version can be seen on [game.rhodan.cloud](http://game.rhodan.cloud) (for now)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+for local installation clone the repo and run either 
+- `npm run start` for local development via an integrated webserver on port 3000
+- `npm run build` to build a version of the app for deployment on another server(must have a webserver on that server) 
