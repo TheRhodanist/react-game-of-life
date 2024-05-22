@@ -11,8 +11,6 @@ L
 src/services/LogicService.ts,f\6\f6fdbc8ba2cab6e1776b861d643d7971c1763025
 L
 src/components/Tile/tile.css,7\9\79593be409321d7362b0767c3a2d8fc2ef2b960d
-w
-G.idea/sonarlint/issuestore/a/9/a904cad6f325663b3a47f335b364708f47f51199,2\8\28146eae2f970a3ddf944812bdd0649543e0f9e3
 A
 package-lock.json,f\a\fa288d1472d29beccb489a676f68739ad365fc47
 F
@@ -21,8 +19,6 @@ F
 Q.idea/sonarlint/securityhotspotstore/f/6/f6fdbc8ba2cab6e1776b861d643d7971c1763025,5\6\56f4312de86ad5e8d230d8e1654173702b24cddd
 Å
 Q.idea/sonarlint/securityhotspotstore/2/f/2f6e0dd7a4baed217d1782cd3b05f290dbbdf076,9\b\9b1afc72f61893b56e19f5a577d19c2487361f44
-Å
-Q.idea/sonarlint/securityhotspotstore/a/9/a904cad6f325663b3a47f335b364708f47f51199,0\b\0bd6cbf69c57209af3f84e17ce313beb9bf9ce6b
 Å
 Q.idea/sonarlint/securityhotspotstore/7/0/7030d0b2f71b999ff89a343de08c414af32fc93a,9\a\9ab775a45cd57b8b48016a1df33230d8b5c74c21
 Å
@@ -39,3 +35,9 @@ S
 Q.idea/sonarlint/securityhotspotstore/5/a/5ab44fe33ca96299f51ad4778a73e425b92bf439,d\3\d336efa82b4f1256cc207997c16459382c35ffdc
 w
 G.idea/sonarlint/issuestore/5/a/5ab44fe33ca96299f51ad4778a73e425b92bf439,b\c\bce2405d88763516c945b781ee63069b8b1bc712
+G
+src/models/TileModel.ts,4\e\4efb90c6ae1ff592b68b3b5deedf0c19b9f95c66
+=
+src/index.css,c\5\c5d38a62d1faae90a2acaa34b79a7ef365c917e4
+;
+src/App.css,a\a\aa7165aefcf8ee3d73539e99ab007daf1aa18d8d

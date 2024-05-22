@@ -21,8 +21,6 @@ export function cloneBoard(board:TileModel[][]):TileModel[][] {
 }
 export function willBeAlive(x: number, y: number,board:TileModel[][]) {
     let neighbors = getNeighbors(x,y,board);
-    // console.log(board[x][y])
-    // console.log(neighbors)
     if(neighbors<2) return false
     if(neighbors>3) return false;
     if(board[x][y].filled && (neighbors===2||neighbors===3)) return true
@@ -36,14 +34,14 @@ export function getNeighbors(x:number,y:number,board:TileModel[][]):number {
     const belowValid = y<size-1;
     const leftValid = x>0;
     const rightValid = x<size-1;
-    if(leftValid&&aboveValid&&board[x-1][y-1]?.filled) result++;
-    if(leftValid&&board[x-1][y]?.filled) result++;
-    if(leftValid&&y<size&&board[x-1][y+1]?.filled) result++;
-    if(aboveValid&&board[x][y-1]?.filled) result++;
-    if(belowValid&&board[x][y+1]?.filled) result++;
-    if(rightValid&&aboveValid&&board[x+1][y-1]?.filled) result++;
-    if(rightValid&&board[x+1][y]?.filled) result++;
-    if(rightValid&&belowValid&&board[x+1][y+1]?.filled) result++;
+    if(leftValid    &&aboveValid    &&board[x-1][y-1]?.filled)  result++;
+    if(leftValid                    &&board[x-1][y]?.filled)    result++;
+    if(leftValid    &&belowValid    &&board[x-1][y+1]?.filled)  result++;
+    if(aboveValid                   &&board[x][y-1]?.filled)    result++;
+    if(belowValid                   &&board[x][y+1]?.filled)    result++;
+    if(rightValid   &&aboveValid    &&board[x+1][y-1]?.filled)  result++;
+    if(rightValid                   &&board[x+1][y]?.filled)    result++;
+    if(rightValid   &&belowValid    &&board[x+1][y+1]?.filled)  result++;
     return result;
 }
 
