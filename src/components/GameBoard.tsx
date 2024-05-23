@@ -5,12 +5,14 @@ import {calculateNextStep, getEmptyGame} from "../services/LogicService";
 import "../components/Tile/tile.css"
 import {Tile} from "./Tile/Tile";
 
-const GAME_SIZE=40;
-const randomGame:TileModel[][] = getEmptyGame(GAME_SIZE,true)
+const GAME_SIZE = 40;
+const randomGame: TileModel[][] = getEmptyGame(GAME_SIZE, true)
+
 interface Props {
 
 }
-export const GameBoard  = (props:Props) => {
+
+export const GameBoard = (props: Props) => {
     const [board, setBoard] = useState(randomGame);
     const [lastBoard, setLastBoard] = useState(randomGame);
     const [previewEnabled, setPreviewEnabled] = useState(false);
@@ -20,72 +22,99 @@ export const GameBoard  = (props:Props) => {
 
     function handleAdvance() {
         setLastBoard(board)
-        setBoard(prevstate=>{
+        setBoard(prevstate => {
             const newBoard = calculateNextStep(prevstate);
             return newBoard;
         });
     }
-    function handleToggleTile(tile:TileModel) {
+
+    function handleToggleTile(tile: TileModel) {
         tile.toggle();
         manualRedraw()
     }
+
     function handleBack() {
         setBoard(prevState => lastBoard);
     }
+
     function manualRedraw() {
         setRedraw(prevState => !prevState)
     }
+
     useEffect(() => {
-        const timer = setInterval(()=>{
+        const timer = setInterval(() => {
             handleAdvance();
-        },timerValue);
-        if(!autoMode) clearInterval(timer);
+        }, timerValue);
+        if (!autoMode) clearInterval(timer);
         return function clean() {
             clearInterval(timer);
         }
 
-    }, [timerValue,autoMode]);
+    }, [timerValue, autoMode]);
 
-    function handleNewTimer(event:React.ChangeEvent<HTMLTextAreaElement>) {
+    function handleNewTimer(event: React.ChangeEvent<HTMLTextAreaElement>) {
         const newTimer = Number.parseInt(event.target.value);
-        if(Number.isNaN(newTimer)) return
-        if(newTimer!=timerValue) setTimerValue(newTimer);
+        if (Number.isNaN(newTimer)) return
+        if (newTimer != timerValue) setTimerValue(newTimer);
     }
 
-    function handleAutoForwardChange(event:React.ChangeEvent<HTMLInputElement>) {
+    function handleAutoForwardChange(event: React.ChangeEvent<HTMLInputElement>) {
         setAutoMode(event.target.checked);
     }
 
-    function handlePreview(event:ChangeEvent<HTMLInputElement>) {
+    function handlePreview(event: ChangeEvent<HTMLInputElement>) {
         setPreviewEnabled(event.target.checked);
     }
+
     function handleClear() {
         setBoard(getEmptyGame(GAME_SIZE));
     }
 
+    function drawCanvas() {
+        const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+        const context = canvas.getContext("2d");
+        if (!context) return;
+        for (let i = 0; i < GAME_SIZE; i++)
+            for (let j = 0; j < GAME_SIZE; j++) {
+                const filled = board[i][j].filled;
+                if (!filled) context.fillStyle = "rgb(200,200,200)"
+                else context.fillStyle = "rgb(0,0,0)"
+                context.fillRect(i * 20, j * 20, i * 20 + 20, j * 20 + 20);
+            }
+
+    }
+
+    useEffect(() => {
+        drawCanvas();
+    }, [board]);
+
     return (
         <>
             <div>
-                <ToggleButton style={{backgroundColor:"gray",marginRight:"10px"}} value={autoMode} selected={autoMode} onChange={()=>setAutoMode(!autoMode)}>Timer</ToggleButton>
-                <TextField variant={"outlined"} onChange={handleNewTimer} defaultValue={timerValue} style={{backgroundColor:"gray"}}></TextField>
+                <ToggleButton style={{backgroundColor: "gray", marginRight: "10px"}} value={autoMode}
+                              selected={autoMode} onChange={() => setAutoMode(!autoMode)}>Timer</ToggleButton>
+                <TextField variant={"outlined"} onChange={handleNewTimer} defaultValue={timerValue}
+                           style={{backgroundColor: "gray"}}></TextField>
                 <Button onClick={handleAdvance} variant={"contained"}>Advance</Button>
                 <Button onClick={handleClear} variant={"contained"}>Clear</Button>
                 Preview
                 <Checkbox onChange={handlePreview}></Checkbox>
             </div>
             <div>
-            {board.map((col, colIndex) => (
-                <div key={"col" + colIndex} style={{margin:"auto",display:"flex"}}>
-                    {col.map((item, rowIndex) => {
-                        return (
-                            <div key={"row" + rowIndex}>
-                                <Tile board={board} previewEnabled={previewEnabled} tile={item} handleToggle={handleToggleTile}/>
-                            </div>
-                        );
-                    })}
-                </div>
-            ))}
-        </div>
+                {board.map((col, colIndex) => (
+                    <div key={"col" + colIndex} style={{margin: "auto", display: "flex"}}>
+                        {col.map((item, rowIndex) => {
+                            return (
+                                <div key={"row" + rowIndex}>
+                                    <Tile board={board} previewEnabled={previewEnabled} tile={item}
+                                          handleToggle={handleToggleTile}/>
+                                </div>
+                            );
+                        })}
+                    </div>
+                ))}
+            </div>
+            <canvas id={"canvas"} height={800} width={800}></canvas>
         </>
-)
+    )
 }
