@@ -13,14 +13,12 @@ export const GameBoard  = () => {
     const [previewEnabled, setPreviewEnabled] = useState(false);
     const [timerValue, setTimerValue] = useState(100);
     const [autoMode, setAutoMode] = useState(false);
+    const [redraw, setRedraw] = useState(false);
 
     function handleAdvance() {
         setBoard(prevstate=>{
             return calculateNextStep(prevstate);
         });
-    }
-    function handleToggleTile(tile:TileModel) {
-        tile.toggle();
     }
     useEffect(() => {
         const timer = setInterval(()=>{
@@ -35,9 +33,15 @@ export const GameBoard  = () => {
     function handleClear() {
         setBoard(getEmptyGame(GAME_SIZE));
     }
-
+    function handleToggleTile(tile:TileModel) {
+        tile.toggle();
+        manualRedraw()
+    }
+    function manualRedraw() {
+        setRedraw(prevState => !prevState)
+    }
     return (
-        <div style={{display: "flex", flexFlow: "column", height: "100vh", width: "80%"}}>
+        <div style={{display: "flex", flexFlow: "column", height: "100vh", width: "100%"}}>
             <HeaderComponent autoMode={autoMode} setAutoMode={setAutoMode} timerValue={timerValue}
                              setTimerValue={setTimerValue} previewEnabled={previewEnabled}
                              setPreviewEnabled={setPreviewEnabled} handleClear={handleClear}
