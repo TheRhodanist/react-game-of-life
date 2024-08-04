@@ -38,8 +38,8 @@ function HeaderComponent(props:Props) {
     }
         return (
             <FormGroup style={headerStyles}>
-                <ToggleButton color={"secondary"} value={autoMode} selected={autoMode} onChange={()=>setAutoMode(!autoMode)}>Timer</ToggleButton>
-                <TextField variant={"outlined"} onChange={handleNewTimer} defaultValue={timerValue} style={{backgroundColor:"gray"}}></TextField>
+                <ToggleButton  color={"primary"} value={autoMode} selected={autoMode} onChange={()=>setAutoMode(!autoMode)}>Timer</ToggleButton>
+                <TextField label={"Tick duration in ms"} variant={"outlined"} onChange={handleNewTimer} defaultValue={timerValue}></TextField>
                 <Button onClick={handleAdvance} variant={"contained"}>Advance</Button>
                 <Button onClick={handleClear} variant={"contained"}>Clear</Button>
                 <FormControlLabel control={<Checkbox value={previewEnabled} onChange={handlePreview}/>} label={"Preview"}/>

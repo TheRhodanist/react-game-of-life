@@ -38,7 +38,7 @@ export const GameBoard  = () => {
         manualRedraw()
     }
     function manualRedraw() {
-        setRedraw(prevState => !prevState)
+        setRedraw(!redraw)
     }
     return (
         <div style={{display: "flex", flexFlow: "column", height: "100vh", width: "100%"}}>
