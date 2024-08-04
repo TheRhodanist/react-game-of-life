@@ -18,7 +18,7 @@ Enabling the preview checkbox displayed a color view of the coming generation:
 To get a new randomly generated field refresh the browser
 
 ## Installation
-A live version can be seen on [game.rhodan.cloud](http://game.rhodan.cloud) (for now)
+A live version can be seen on [Github Pages](https://therhodanist.github.io/react-game-of-life/) (for now)
 
 for local installation clone the repo and run either 
 - `npm run start` for local development via an integrated webserver on port 3000
